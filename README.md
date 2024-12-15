@@ -6,6 +6,8 @@ This repo is a fork of [alisaalehi/convolution_as_multiplication](https://github
 
 In this fork I modify the method explained by Ali to simplify the transformations needed to create the Toeplitz filter matrix, the input matrix and the resultant vector with the goal of making the method easier to understand.
 
+Additionally, I added additional support for modes "same" and "valid" in `conv_as_mmult()` function which are not included in Ali's implementation.
+
 You can find the explanation in the Jupyter Notebook.
 
 Hope this helps!
