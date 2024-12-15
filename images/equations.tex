@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage[Q=yes]{examplep}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tikz-qtree}
+\usepackage{float}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multicol} % multi columns
+
+\usepackage{breakcites} % break long citations
+\hypersetup{
+	colorlinks=false,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape \MakeUppercase  Convolution as Matrix Multiplication}
+
+\fancyfoot[c]{\thepage}
+
+%\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+% beign python code --------------------------------------------V
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+
+\usepackage{amsmath}
+\newcommand\x{\cellcolor{red!10}}
+\newcommand\y{\cellcolor{green!10}}
+\newcommand\z{\cellcolor{blue!10}}
+
+\begin{document}
+
+    \begin{equation}
+    ZeroPadded \ F=
+    \begin{bmatrix}
+    \x 10 & \x 20 & 0 & 0\\
+    \x 30 & \x 40 & 0 & 0\\
+      0 &     0 & 0 & 0\\
+    \end{bmatrix}
+    \end{equation}
+	
+	\begin{equation}
+	ZeroPadded \ F=
+	\begin{bmatrix}
+    \z 10 & \z 20 & \z 0 & \z 0\\
+	\y 30 & \y 40 & \y 0 & \y 0\\
+	\x 0 & \x 0 & \x 0 & \x 0\\
+	\end{bmatrix}
+	\end{equation}
+    
+    \begin{equation}
+    F_0=
+	\begin{bmatrix}
+	\z 10 & \z 0 & \z 0 \\
+	\z 20 & \z 10 & \z 0 \\
+	\z 0 & \z 20 & \z 10 \\
+	\z 0 & \z 0 & \z 20  \\
+	\end{bmatrix}
+	F_1=
+	\begin{bmatrix}
+	\y 30 & \y 0 & \y 0 \\
+	\y 40 & \y 30 & \y 0 \\
+	\y 0 & \y 40 & \y 30 \\
+	\y 0 & \y 0 & \y 40  \\
+	\end{bmatrix}
+	F_2=
+	\begin{bmatrix}
+	\x 0 & \x 0 & \x 0 \\
+	\x 0 & \x 0 & \x 0 \\
+	\x 0 & \x 0 & \x 0 \\
+	\x 0 & \x 0 & \x 0 \\
+	\end{bmatrix}
+	\end{equation}
+	\vspace{10mm}
+	
+	\begin{equation}
+	doubly \ blocked = 
+	\begin{bmatrix}
+	F_0 & 0 \\
+	F_1 & F_0 \\
+	F_2 & F_1 \\
+	\end{bmatrix}
+	\end{equation}
+	
+	\begin{equation}
+	doubly \ blocked = 
+	\begin{bmatrix}
+	
+	\z 10 & \z 0 & \z 0 & 0 & 0 & 0 \\
+	\z 20 & \z 10 & \z 0 & 0 & 0 & 0 \\
+	\z 0 & \z 20 & \z 10 & 0 & 0 & 0 \\
+	\z 0 & \z 0 & \z 10  & 0 & 0 & 0 \\
+	
+	\y 30 & \y 0 & \y 0 & \z 10 & \z 0 & \z 0 \\
+	\y 40 & \y 30 & \y 0 & \z 20 & \z 10 & \z 0 \\
+	\y 0 & \y 40 & \y 30 & \z 0 & \z 20 & \z 10 \\
+	\y 0 & \y 0 & \y 40  & \z 0 & \z 0 & \z 20  \\
+	
+	\x 0 & \x 0 & \x 0 &  \y 30 & \y 0 & \y 0 \\
+	\x 0 & \x 0 & \x 0 & \y 40 & \y 30 & \y 0 \\
+	\x 0 & \x 0 & \x 0 & \y 0 & \y 40 & \y 30 \\
+	\x 0 & \x 0 & \x 0 & \y 0 & \y 0 & \y 40 \\
+	
+	\end{bmatrix}
+	\end{equation}
+	
+	\begin{equation}
+	I = 
+	\begin{bmatrix}
+	\x 1 & \x 2 & \x 3 \\
+	\z 4 & \z 5 & \z 6 \\
+	\end{bmatrix}
+	\Rightarrow \vec{i} = 
+	\begin{bmatrix}
+	\x  1 \\ \x  2 \\ \x  3 \\ \z 4 \\ \z 5 \\ \z 6 
+	\end{bmatrix}
+	\end{equation}
+	
+	\begin{equation}
+	result \ vector = 
+	\begin{bmatrix}
+	\z 10\\ \z 40\\ \z 70\\ \z 60\\ \y 70\\ \y 230\\ \y 330\\ \y 240\\ \x 120\\ \x  310\\ \x 380\\ \x 240\\
+	\end{bmatrix}
+	\Rightarrow output= 
+	\begin{bmatrix}
+	\z 10 & \z 40 & \z 70 & \z 60\\
+	\y 70 & \y 230 & \y 330 & \y 240\\
+	\x 120 & \x  310 & \x 380 & \x 240\\
+	\end{bmatrix}
+	\end{equation}
+	\vspace{10mm}
+	
+\end{document}
